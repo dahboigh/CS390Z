@@ -1,4 +1,4 @@
-# CS390Z - Introduction to Data Minining - Fall 2021
+# CS390Z - Introduction to Data Mining - Fall 2021
 # Instructor: Thyago Mota
 # Description: Activity 01 - CSV Data Load
 
@@ -8,12 +8,16 @@ import os
 import sys
 
 # definitions/parameters
-DATA_FOLDER = os.join("..", "data")
+DATA_FOLDER = os.path.join("..", "data")
 CSV_FILE_NAME = 'employees.csv'
 DB_HOST = 'localhost'
 DB_NAME = 'hr'
 
 if __name__ == "__main__":
+    DATA_FOLDER = os.path.join("..", "data")
+    print(DATA_FOLDER)
+    print(os.path.exists(DATA_FOLDER))
+    quit()
 
     # TODO: get db connection parameters
     db_user   = os.getenv('db_user')
