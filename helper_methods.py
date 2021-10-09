@@ -2,12 +2,6 @@ import os
 import json
 
 
-def quit_msg(msg, error):
-    print(msg)
-    print("Error:", error)
-    quit()
-
-
 def file_exists(filepath, quit_message=None):
     # Returns True if file exists
     # Otherwise returns False (default) or exits with error message
@@ -18,6 +12,20 @@ def file_exists(filepath, quit_message=None):
         if quit_message:
             print(quit_message)
             exit()
+        else:
+            return False
+
+
+def folder_exists(path, create_folder=True):
+    # Returns True if the path exists
+    # Otherwise creates the path (default), or returns False
+
+    if os.path.exists(path):
+        return True
+    else:
+        if create_folder:
+            os.makedirs(path)
+            return True
         else:
             return False
 
@@ -40,3 +48,14 @@ def json_write_to_file(data, filepath, indent=1):
             file.close()
     except Exception as error:
         quit_msg("Failed to write to file", error)
+
+
+def print_array(array):
+    for i in array:
+        print(i)
+
+
+def quit_msg(msg, error):
+    print(msg)
+    print("Error:", error)
+    quit()
