@@ -2,10 +2,9 @@
 # Instructor: Thyago Mota
 # Description: Homework 04 - show outliers
 
-import helper_methods
-import csv 
+import csv
 import os
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
 import re
 
 
@@ -15,11 +14,34 @@ CSV_FILE_NAME = 'denver_neighborhoods.csv'
 
 
 def main():
-    matrix = create_matrix()
-    boxplot(matrix)
+    neighborhoods, matrix = create_matrix()
+    bp = boxplot(matrix)
+
+    dictionary = dict(zip(neighborhoods, matrix))
+
+    verb_phrases = [
+        "has a population much",
+        "has homes priced much",
+        "has a school score average much",
+        "has a crime rate that is much",
+        "has an X-Factor that is much"
+    ]
+
+    for i in range(len(bp['fliers'])):
+        outliers = bp['fliers'][i].get_xydata()
+        track_y = []                # prevent errors for identical y-values
+        for x, y in outliers:
+            phrase = verb_phrases[i]
+            direction = 'higher' if y > 0.5 else 'lower'
+            names = [key for key, value in dictionary.items() if value[i] == y]
+
+            for name in names:
+                if y not in track_y:
+                    print(name, phrase, direction, "compared to others.")
+            track_y.append(y)
 
 
-## All code below was provided for the assignment
+# The code below was provided for the assignment, rearranged as independent methods
 def create_matrix():
     matrix = []
     neighborhoods = []
@@ -42,12 +64,13 @@ def create_matrix():
                     mins[i] = min(mins[i], data[i])
                     maxs[i] = max(maxs[i], data[i])
             matrix.append(data)
-
-    return [min_max(data, mins, maxs) for data in matrix]
+    return neighborhoods, [min_max(data, mins, maxs) for data in matrix]
 
 
 def min_max(data, mins, maxs, interval=(0, 1)):
-    return [int(((data[i] - mins[i]) / (maxs[i] - mins[i]) * (interval[1] - interval[0]) + interval[0]) * 100000) / 100000 for i in range(len(data))]
+    return [
+        int(((data[i] - mins[i]) / (maxs[i] - mins[i]) * (interval[1] - interval[0]) + interval[0]) * 100000) / 100000
+        for i in range(len(data))]
 
 
 def boxplot(matrix):
@@ -60,9 +83,8 @@ def boxplot(matrix):
     axes.set_xticklabels(['pop', 'home$', 'schools', 'crime', 'x factor'])
     plt.title('Neighborhoods in the Denver Metro Area')
     plt.ylabel('Normalized Values')
-    plt.show()
+    return bp
 
 
 if __name__ == "__main__":
     main()
-    
