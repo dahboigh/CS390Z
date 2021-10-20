@@ -21,6 +21,7 @@ title = f"Human Development Index (HDI) in the World ({TARGET_YEAR})"
 x_label = "HDI"
 y_label = "Number of Countries"
 
+
 def main():
 
     filepath = os.path.join(DATA_FOLDER, HDI_FILE_NAME)
@@ -33,6 +34,20 @@ def main():
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.show()
+
+
+def file_exists(filepath, quit_message=None):
+    # Returns True if file exists
+    # Otherwise returns False (default) or exits with error message
+
+    if os.path.exists(filepath):
+        return True
+    else:
+        if quit_message:
+            print(quit_message)
+            exit()
+        else:
+            return False
 
 if __name__ == "__main__":
     main()
