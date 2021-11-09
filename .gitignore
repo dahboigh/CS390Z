@@ -1,5 +1,7 @@
 .idea/
 .ipynb_checkpoints/
 __pycache__
-*/03_Quotes_API/data/
 Lectures/
+
+Activities/03_Quotes_API/data/
+Activities/05_Google_Cloud_Platform_Cloud_Vision/src/cv-pdf-key.json
